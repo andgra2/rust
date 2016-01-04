@@ -663,6 +663,7 @@ fn const_expr_unadjusted<'a, 'tcx>(cx: &CrateContext<'a, 'tcx>,
             let iv = match eval_const_expr_partial(cx.tcx(), &index, ExprTypeChecked, None) {
                 Ok(ConstVal::Int(i)) => i as u64,
                 Ok(ConstVal::Uint(u)) => u,
+                Err(e) => return Err(ConstEvalFailure::Compiletime(e)),
                 _ => cx.sess().span_bug(index.span,
                                         "index is not an integer-constant expression")
             };
